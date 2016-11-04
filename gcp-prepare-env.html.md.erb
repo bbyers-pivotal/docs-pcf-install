@@ -6,7 +6,7 @@ owner: Ops Manager
 <strong><%= modified_date %></strong>
 <html class="list-style-none"></html>
 
-This guide describes the preparation steps required to install [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) (PCF) on Google Cloud Platform (GCP).
+This guide describes the preparation steps required to install Pivotal Cloud Foundry (PCF) on Google Cloud Platform (GCP).
 
 In addition to fulfilling the [prerequisites](./gcp.html), you must create resources in GCP such as a new network, firewall rules, load balancers, and a service account before deploying PCF. Follow these procedures to prepare your GCP environment. 
 
@@ -62,11 +62,13 @@ In the [Google Cloud Platform Config](./gcp-om-config.html#gcp-config) step of t
 1. Click **Create Service Account**: 
 	* **Service account name**: Enter a name. For example, `bosh`.
 	* **Role**: Select the following roles for the service account:
+     <p class="note">You must scroll down in the pop-up windows to select all required roles.</p>
+     * **Project** > **Service Account Actor** 
      * **Compute Engine** > **Compute Instance Admin**
      * **Compute Engine** > **Compute Network Admin**
      * **Compute Engine** > **Compute Storage Admin**
      * **Storage** > **Storage Admin**
-     <p class="note">Scroll down the full list of roles in the pop-up to select all required roles.</p>
+     <p class="note">The **Service Account Actor** role is only required if you plan to use [**The Ops Manager VM Service Account**](./gcp-om-config.html#gcp-config) to deploy Ops Manager.</p>
 	* **Service account ID**: The field autogenerates a unique ID based on the username. 
 	* **Furnish a new private key**: Select this checkbox and JSON as the **Key type**.
     <%= image_tag("gcp/iam_account.png") %>
@@ -263,9 +265,9 @@ The load balancer for tailing logs with websockets for PCF on GCP operates on TC
 1. In the **New TCP load balancer** window, enter `pcf-websockets` in the **Name** field.
 
 1. Click **Backend configuration** to configure the **Backend service**: 
-  * From the **Health check** drop-down menu, select the [**Health check**](#http_https_lb) that you created above.
   * **Region**: Select the region you used to create the network in [Create a GCP Network with Subnet](#create_network).
   <%= image_tag "gcp/tcp_websockets_lb_config.png" %>
+  * From the **Health check** drop-down menu, select the [**Health check**](#http_https_lb) that you created above.
   The **Backend configuration** section shows a green check mark.
 
 1. Click **Frontend configuration** to open its configuration window and complete the fields:
@@ -354,5 +356,7 @@ To create a load balancer for TCP routing in GCP, perform the following steps:
 
 ## <a id="next"></a> What to Do Next ###
 
-Proceed to the next step in the deployment, [Launching an Ops Manager Director Instance on GCP](./gcp-om-deploy.html).
+* (Optional) To save time during the final stage of the installation process, you can start downloading the Elastic Runtime tile. See [Step 1: Download the Elastic Runtime Tile](./gcp-er-config.html#download-er) of the _Deploying Elastic Runtime on GCP_ topic.
+
+* Proceed to the next step in the deployment, [Launching an Ops Manager Director Instance on GCP](./gcp-om-deploy.html). 
 
